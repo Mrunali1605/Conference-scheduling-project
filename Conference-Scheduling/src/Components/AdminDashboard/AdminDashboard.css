@@ -1,0 +1,225 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-dashboard-header {
+  text-align: center;
+  align-items: center;
+  padding: 570px 20px 20px 10px;
+  background-color: #f8f9fa;
+  height: 10vh;
+}
+.admin-dashboard-header h1 {
+  font-size: 2.5rem;
+}
+
+.add-event-button {
+  padding: 2000px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-size: 1rem;
+}
+
+.add-event-button:hover {
+  background-color: #0056b3;
+}
+
+.admin-dashboard {
+  padding: 130px 10px 10px 10px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.add-event-button {
+  background-color: #3174ad;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+.add-event-button:hover {
+  background-color: #255a8a;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  text-align: center;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 90%;
+  height: auto;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 1001; /* Even higher z-index */
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal-content input,
+.modal-content textarea {
+  padding: 8px;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.modal-content textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.modal-content button {
+  padding: 8px;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.calendar-container {
+  margin-top: 20px;
+  height: 600px;
+}
+
+/* Align label and input fields */
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* Label styling */
+.form-group label {
+  width: 150px; /* Set fixed width */
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  text-align: right;
+  margin-right: 10px;
+}
+
+/* Input and textarea styling */
+.form-group input,
+.form-group textarea {
+  flex-grow: 1;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.form-group select[multiple] {
+  width: 100%;
+  padding: 0.75rem;
+  min-height: 120px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-group select[multiple] option {
+  padding: 8px;
+  margin: 2px 0;
+  border-radius: 4px;
+}
+
+.form-group select[multiple] option:checked {
+  background-color: #3174ad;
+  color: white;
+}
+
+.form-group select[multiple] option:hover {
+  background-color: #e9ecef;
+}
+
+.form-group .help-text {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.button-group button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Button Colors */
+.button-group button[type="submit"] {
+  background: #28a745;
+  color: white;
+}
+
+.button-group button[type="button"] {
+  background: #dc3545;
+  color: white;
+}
+
+.button-group button:nth-child(3) {
+  background: #6c757d;
+  color: white;
+}
+
+footer {
+  z-index: 999; /* Lower z-index than modal */
+}

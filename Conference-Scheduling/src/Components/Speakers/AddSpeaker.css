@@ -1,0 +1,85 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  /* height: 100vh;   */
+  overflow: hidden;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4;
+}
+
+.add-speaker-container {
+  max-width: 600px;
+  margin: 100px auto 2rem; 
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: visible;
+  min-height: calc(100vh - 200px); 
+}
+
+
+.add-speaker-container h2 {
+  
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #555;
+}
+
+
+
+
+.add-speaker-container input,
+textarea,
+select {
+  width: 100%;
+  margin-bottom: 2px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.add-speaker-container button {
+  background: blue;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.form-group select[multiple] {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  
+}
+
+.form-group select[multiple] option {
+  padding: 5px;
+}
+
+.form-group select[multiple] option:checked {
+  background-color: #007bff;
+  color: white;
+}
