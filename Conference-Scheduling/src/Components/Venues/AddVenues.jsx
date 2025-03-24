@@ -69,7 +69,6 @@ const AddVenues = () => {
     } catch (error) {
       console.error("Error fetching events:", error);
       setError(error.response?.data?.message || "Failed to fetch events");
-      
     }
   };
 
@@ -93,7 +92,7 @@ const AddVenues = () => {
         setLoading(false);
         return;
       }
-      
+
       if (
         !formData.name ||
         !formData.address ||
@@ -105,11 +104,11 @@ const AddVenues = () => {
         setLoading(false);
         return;
       }
-      console.log('Sending venue data:', {
+      console.log("Sending venue data:", {
         url: "http://localhost:8080/api/venues",
-        formData
+        formData,
       });
-    
+
       const response = await axios.post(
         "http://localhost:8080/api/venues",
         // venue,
@@ -149,11 +148,14 @@ const AddVenues = () => {
     }
   };
 
+  const handleCancel = () => {
+    navigate("/AdminDashboard");
+  };
 
   return (
     <div className="add-venue-container">
       <h2>Add New Venue</h2>
-     
+
       {error && <p className="error-message">{error}</p>}
       {isLoading ? (
         <div>Loading events...</div>
@@ -227,10 +229,18 @@ const AddVenues = () => {
             />
           </div>
 
-          
-          <button type="submit" disabled={loading}>
-            {loading ? "Adding..." : "Add Venue"}
-          </button>
+          <div className="button-group">
+            <button type="submit" disabled={loading}>
+              {loading ? "Adding..." : "Add Venue"}
+            </button>
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="cancel-button"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       )}
     </div>

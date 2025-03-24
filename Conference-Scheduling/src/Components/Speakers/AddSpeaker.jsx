@@ -19,7 +19,6 @@ function AddSpeaker() {
   const navigate = useNavigate();
 
   useEffect(() => {
-   
     const checkAdmin = async () => {
       const token = localStorage.getItem("token");
       const userRole = localStorage.getItem("userRole");
@@ -119,6 +118,10 @@ function AddSpeaker() {
     }
   };
 
+  const handleCancel = () => {
+    navigate("/AdminDashboard");
+  };
+
   return (
     <div className="add-speaker-container">
       <h2>Add Speaker</h2>
@@ -185,9 +188,21 @@ function AddSpeaker() {
           />
         </div>
 
-        <button type="submit" disabled={loading}>
+        {/* <button type="submit" disabled={loading}>
           {loading ? "Adding..." : "Add Speaker"}
-        </button>
+        </button> */}
+        <div className="button-group">
+          <button type="submit" disabled={loading}>
+            {loading ? "Adding..." : "Add Speaker"}
+          </button>
+          <button
+            type="button"
+            onClick={handleCancel}
+            className="cancel-button"
+          >
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   );

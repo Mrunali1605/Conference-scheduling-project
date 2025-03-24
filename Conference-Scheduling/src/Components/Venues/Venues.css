@@ -1,4 +1,3 @@
-
 .venues-container {
   display: flex;
   flex-direction: column;
@@ -43,4 +42,11 @@
 
 .add-venues-button:hover {
   background-color: #0056b3;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  margin-top: 20px;
 }

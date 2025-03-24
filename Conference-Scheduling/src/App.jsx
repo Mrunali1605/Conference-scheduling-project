@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./Components/Home/Home";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
-import Scheduler from "./Components/Schedular/Schedular";
+import UserSchedular from "./Components/UserSchedular/UserSchedular";
 import AdminDashboard from "./Components/AdminDashboard/AdminDashboard";
 import Speakers from "./Components/Speakers/Speakers";
 import AddSpeaker from "./Components/Speakers/AddSpeaker";
@@ -11,6 +11,7 @@ import RegisterNow from "./Components/RegisterNow/RegisterNow";
 import Unauthorized from "./Components/Unauthorized/Unauthorized";
 import Venues from "./Components/Venues/Venues";
 import AddVenues from "./Components/Venues/AddVenues";
+import About from "./Components/About/About";
 import { checkAdminStatus } from "./Utile";
 const ProtectedRoute = ({ children }) => {
   const isAdmin = localStorage.getItem("userRole") === "admin";
@@ -28,7 +29,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/schedular" element={<Scheduler />} />
+        <Route path="/UserSchedular" element={<UserSchedular />} />
 
         <Route
           path="/AdminDashboard"
@@ -72,7 +73,9 @@ function App() {
         />
         {/* <Route path="/register" element={<RegisterNow />} /> */}
         <Route path="/unauthorized" element={<Unauthorized />} />
-      <Route path="/RegisterNow" element={<RegisterNow/>}/>
+        <Route path="/RegisterNow" element={<RegisterNow />} />
+
+        <Route path="/about" element={<About />} />
       </Routes>
     </>
   );

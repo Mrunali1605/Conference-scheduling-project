@@ -74,7 +74,7 @@ router.post("/", auth, async (req, res) => {
       capacity: parseInt(capacity),
       createdBy: req.user._id,
       // speakers: [],
-      venue:venue || null,
+      venue: venue || null,
       speakers: speakers || [],
       registeredUsers: [],
     });
@@ -89,7 +89,7 @@ router.post("/", auth, async (req, res) => {
       })
       .populate({
         path: "venue",
-        select: "name address capacity facilities"
+        select: "name address capacity facilities",
       });
     // .populate("speakers");
 
@@ -106,8 +106,16 @@ router.post("/", auth, async (req, res) => {
 
 router.put("/:id", auth, async (req, res) => {
   try {
-    const { title, description, start, end, location, capacity, speakers,venue} =
-      req.body;
+    const {
+      title,
+      description,
+      start,
+      end,
+      location,
+      capacity,
+      speakers,
+      venue,
+    } = req.body;
 
     // Validate required fields
     if (!title || !description || !start || !end || !location || !capacity) {
@@ -124,7 +132,7 @@ router.put("/:id", auth, async (req, res) => {
         location,
         capacity: parseInt(capacity),
         speakers: speakers || [],
-        venue:venue || null
+        venue: venue || null,
       },
       {
         new: true,
@@ -135,7 +143,7 @@ router.put("/:id", auth, async (req, res) => {
       .populate("speakers")
       .populate({
         path: "venue",
-        select: "name address capacity facilities"
+        select: "name address capacity facilities",
       });
 
     if (!updatedEvent) {
@@ -165,4 +173,55 @@ router.delete("/:id", auth, async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+// router.post("/:id/register", auth, async (req, res) => {
+//   try {
+//     const eventId = req.params.id;
+//     const userId = req.user._id;
+
+//     const event = await Event.findById(eventId);
+//     if (!event) {
+//       return res.status(404).json({ message: "Event not found" });
+//     }
+
+//     // Check if user is already registered
+//     const isRegistered = event.registeredUsers.some(
+//       (reg) => reg.user.toString() === userId.toString()
+//     );
+
+//     if (isRegistered) {
+//       return res.status(400).json({ message: "Already registered for this event" });
+//     }
+
+//     // Check event capacity
+//     if (event.registeredUsers.length >= event.capacity) {
+//       return res.status(400).json({ message: "Event is full" });
+//     }
+
+//     // Add registration
+//     event.registeredUsers.push({
+//       user: userId,
+//       registrationDate: new Date()
+//     });
+
+//     await event.save();
+
+//     res.status(200).json({
+//       message: "Successfully registered for the event",
+//       event: {
+//         title: event.title,
+//         start: event.start,
+//         registrationDate: new Date()
+//       }
+//     });
+
+//   } catch (error) {
+//     console.error('Registration error:', error);
+//     res.status(500).json({
+//       message: "Failed to register for event",
+//       error: error.message
+//     });
+//   }
+// });
+
 module.exports = router;

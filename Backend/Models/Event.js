@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const eventSchema = new mongoose.Schema(
   {
     title: {
@@ -27,12 +28,12 @@ const eventSchema = new mongoose.Schema(
       required: true,
       min: 1,
     },
-    registeredUsers: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+    // registeredUsers: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "User",
+    //   },
+    // ],
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -52,12 +53,33 @@ const eventSchema = new mongoose.Schema(
       enum: ["upcoming", "ongoing", "completed"],
       default: "upcoming",
     },
+    registeredUsers: [
+      {
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        registrationDate: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
   }
 );
 
+eventSchema.index({ start: 1, end: 1 });
+// Add capacity validation
+eventSchema.pre("save", function (next) {
+  if (this.registeredUsers.length > this.capacity) {
+    return next(new Error("Event has reached maximum capacity"));
+  }
+  next();
+});
 // Add validation for dates
 eventSchema.pre("save", function (next) {
   if (this.start >= this.end) {

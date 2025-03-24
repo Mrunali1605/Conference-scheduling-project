@@ -1,8 +1,9 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   /* height: 100vh;   */
-  overflow: hidden;  
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,19 +11,18 @@ html, body {
 }
 
 .add-speaker-container {
+  margin: 100px auto 1rem;
+  min-height: calc(100vh - 200px);
+  width: 100%;
   max-width: 600px;
-  margin: 100px auto 2rem; 
   padding: 2rem;
-  background-color: #f8f9fa;
+  background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   overflow: visible;
-  min-height: calc(100vh - 200px); 
 }
 
-
 .add-speaker-container h2 {
-  
   text-align: center;
   color: #333;
   margin-bottom: 2rem;
@@ -38,9 +38,6 @@ html, body {
   font-weight: 500;
   color: #555;
 }
-
-
-
 
 .add-speaker-container input,
 textarea,
@@ -72,7 +69,6 @@ select {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
-  
 }
 
 .form-group select[multiple] option {
@@ -82,4 +78,19 @@ select {
 .form-group select[multiple] option:checked {
   background-color: #007bff;
   color: white;
+}
+
+.cancel-button {
+  background-color: #f44336;
+}
+
+.cancel-button:hover {
+  background-color: #d32f2f;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  margin-top: 20px;
 }

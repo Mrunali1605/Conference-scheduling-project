@@ -24,3 +24,10 @@ export const requireAdmin = (navigate) => {
 export const isAuthenticated = () => {
   return !!localStorage.getItem("token");
 };
+
+
+export const handleApiError = (error) => {
+  const message = error.response?.data?.message || error.message || 'An error occurred';
+  handleError(message);
+  return message;
+};

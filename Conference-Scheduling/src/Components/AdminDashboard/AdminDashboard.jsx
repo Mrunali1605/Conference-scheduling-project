@@ -258,18 +258,20 @@ function AdminDashboard() {
       <Navbar />
       <div className="admin-dashboard-header">
         <h1>Admin Dashboard</h1>
-        <button
-          className="add-event-button"
-          onClick={() => {
-            setModalMode("create");
-            resetForm();
-            setShowModal(true);
-          }}
-        >
-          Add New Event
-        </button>
+        <div>
+          <button
+            className="add-event-button"
+            onClick={() => {
+              setModalMode("create");
+              resetForm();
+              setShowModal(true);
+            }}
+          >
+            Add New Event
+          </button>
+        </div>
       </div>
-      <div className="admin-dashboard">
+      <div className="calendar-container">
         <Calendar
           localizer={localizer}
           events={events}
@@ -290,167 +292,165 @@ function AdminDashboard() {
             },
           })}
         />
-
-        {showModal && (
-          <div className="modal-overlay">
-            <div className="modal-content">
-              <h2>
-                {modalMode === "create" ? "Create New Event" : "Edit Event"}
-              </h2>
-              <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <label htmlFor="title">Event Title:</label>
-                  <input
-                    type="text"
-                    id="title"
-                    value={newEvent.title}
-                    onChange={(e) =>
-                      setNewEvent({ ...newEvent, title: e.target.value })
-                    }
-                    required
-                    placeholder="Enter event title"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="description">Description:</label>
-                  <textarea
-                    id="description"
-                    value={newEvent.description}
-                    onChange={(e) =>
-                      setNewEvent({ ...newEvent, description: e.target.value })
-                    }
-                    required
-                    placeholder="Enter event description"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="start">Start Date & Time:</label>
-                  <input
-                    type="datetime-local"
-                    id="start"
-                    value={newEvent.start}
-                    onChange={(e) =>
-                      setNewEvent({ ...newEvent, start: e.target.value })
-                    }
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="end">End Date & Time:</label>
-                  <input
-                    type="datetime-local"
-                    id="end"
-                    value={newEvent.end}
-                    onChange={(e) =>
-                      setNewEvent({ ...newEvent, end: e.target.value })
-                    }
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="location">Location:</label>
-                  <input
-                    type="text"
-                    id="location"
-                    value={newEvent.location}
-                    onChange={(e) =>
-                      setNewEvent({ ...newEvent, location: e.target.value })
-                    }
-                    required
-                    placeholder="Enter location"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="capacity">Capacity:</label>
-                  <input
-                    type="number"
-                    id="capacity"
-                    value={newEvent.capacity}
-                    onChange={(e) =>
-                      setNewEvent({ ...newEvent, capacity: e.target.value })
-                    }
-                    required
-                    placeholder="Enter capacity"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="speakers">Speakers:</label>
-                  <select
-                    multiple
-                    id="speakers"
-                    value={newEvent.speakers}
-                    onChange={(e) => {
-                      const selectedSpeakers = Array.from(
-                        e.target.selectedOptions,
-                        (option) => option.value
-                      );
-                      setNewEvent({ ...newEvent, speakers: selectedSpeakers });
-                    }}
-                    className="multiple-select"
-                  >
-                    {availableSpeakers.map((speaker) => (
-                      <option key={speaker._id} value={speaker._id}>
-                        {speaker.name} - {speaker.topic}
-                      </option>
-                    ))}
-                  </select>
-                  <small className="help-text">
-                    Hold Ctrl (Windows) to select multiple speakers
-                  </small>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="venue">Venue:</label>
-                  <select
-                    id="venue"
-                    name="venue"
-                    value={newEvent.venue|| ""}
-                    // onChange={handleVenueChange}
-                    onChange={(e) => {
-                        const venueId = e.target.value;
-                        console.log("Selected venue ID:", venueId);
-                        setNewEvent({ ...newEvent, venue: venueId || null 
-              
-                        });
-                      }}
-                  >
-                    <option value="">Select Venue</option>
-                    {availableVenues.map((venue) => (
-                      <option key={venue._id} value={venue._id}>
-                        {venue.name} - Capacity: {venue.capacity}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="button-group">
-                  <button type="submit">
-                    {modalMode === "create" ? "Create Event" : "Update Event"}
-                  </button>
-                  {modalMode === "edit" && (
-                    <button type="button" onClick={handleDelete}>
-                      Delete Event
-                    </button>
-                  )}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowModal(false);
-                      resetForm();
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
       </div>
+      {/* </div> */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>
+              {modalMode === "create" ? "Create New Event" : "Edit Event"}
+            </h2>
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="title">Event Title:</label>
+                <input
+                  type="text"
+                  id="title"
+                  value={newEvent.title}
+                  onChange={(e) =>
+                    setNewEvent({ ...newEvent, title: e.target.value })
+                  }
+                  required
+                  placeholder="Enter event title"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="description">Description:</label>
+                <textarea
+                  id="description"
+                  value={newEvent.description}
+                  onChange={(e) =>
+                    setNewEvent({ ...newEvent, description: e.target.value })
+                  }
+                  required
+                  placeholder="Enter event description"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="start">Start Date & Time:</label>
+                <input
+                  type="datetime-local"
+                  id="start"
+                  value={newEvent.start}
+                  onChange={(e) =>
+                    setNewEvent({ ...newEvent, start: e.target.value })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="end">End Date & Time:</label>
+                <input
+                  type="datetime-local"
+                  id="end"
+                  value={newEvent.end}
+                  onChange={(e) =>
+                    setNewEvent({ ...newEvent, end: e.target.value })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="location">Location:</label>
+                <input
+                  type="text"
+                  id="location"
+                  value={newEvent.location}
+                  onChange={(e) =>
+                    setNewEvent({ ...newEvent, location: e.target.value })
+                  }
+                  required
+                  placeholder="Enter location"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="capacity">Capacity:</label>
+                <input
+                  type="number"
+                  id="capacity"
+                  value={newEvent.capacity}
+                  onChange={(e) =>
+                    setNewEvent({ ...newEvent, capacity: e.target.value })
+                  }
+                  required
+                  placeholder="Enter capacity"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="speakers">Speakers:</label>
+                <select
+                  multiple
+                  id="speakers"
+                  value={newEvent.speakers}
+                  onChange={(e) => {
+                    const selectedSpeakers = Array.from(
+                      e.target.selectedOptions,
+                      (option) => option.value
+                    );
+                    setNewEvent({ ...newEvent, speakers: selectedSpeakers });
+                  }}
+                  className="multiple-select"
+                >
+                  {availableSpeakers.map((speaker) => (
+                    <option key={speaker._id} value={speaker._id}>
+                      {speaker.name} - {speaker.topic}
+                    </option>
+                  ))}
+                </select>
+                <small className="help-text">
+                  Hold Ctrl (Windows) to select multiple speakers
+                </small>
+              </div>
+              <div className="form-group">
+                <label htmlFor="venue">Venue:</label>
+                <select
+                  id="venue"
+                  name="venue"
+                  value={newEvent.venue || ""}
+                  // onChange={handleVenueChange}
+                  onChange={(e) => {
+                    const venueId = e.target.value;
+                    console.log("Selected venue ID:", venueId);
+                    setNewEvent({ ...newEvent, venue: venueId || null });
+                  }}
+                >
+                  <option value="">Select Venue</option>
+                  {availableVenues.map((venue) => (
+                    <option key={venue._id} value={venue._id}>
+                      {venue.name} - Capacity: {venue.capacity}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="button-group">
+                <button type="submit">
+                  {modalMode === "create" ? "Create Event" : "Update Event"}
+                </button>
+                {modalMode === "edit" && (
+                  <button type="delete" onClick={handleDelete}>
+                    Delete Event
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowModal(false);
+                    resetForm();
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       <br></br>
       <br></br>
       <Footer />

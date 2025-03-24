@@ -9,6 +9,7 @@ require("dotenv").config();
 // Import Models - Add these lines before routes
 const User = require("./Models/User");
 const Event = require("./Models/Event");
+const Venue = require('./Models/Venue');
 const Speaker = require("./Models/Speaker");
 
 // Import Routes
@@ -42,6 +43,7 @@ app.use("/api/events", eventRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/speakers", speakerRoutes);
 app.use('/api/venues', venueRoutes);
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {
