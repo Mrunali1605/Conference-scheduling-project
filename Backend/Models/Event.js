@@ -78,21 +78,6 @@ const eventSchema = new mongoose.Schema(
         },
       },
     ],
-    //     name: String,
-    //     email: String,
-    //     age: Number,
-    //     qualification: String,
-    //     workingStatus: String,
-    //     registrationDate: {
-    //       type: Date,
-    //       default: Date.now,
-    //     },
-    //   },
-    // ],
-    //   registrationDate: {
-    //     type: Date,
-    //     default: Date.now,
-    //   },
   },
 
   {

@@ -157,29 +157,6 @@ const RegisterNow = () => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {/* {event.registeredUsers.map((user) => (
-                                  <tr key={user._id}>
-                                    <td style={styles.innerTableCell}>
-                                      {user.name}
-                                    </td>
-                                    <td style={styles.innerTableCell}>
-                                      {user.email}
-                                    </td>
-                                    <td style={styles.innerTableCell}>
-                                      {user.age}
-                                    </td>
-                                    <td style={styles.innerTableCell}>
-                                      {user.qualification}
-                                    </td>
-                                    <td style={styles.innerTableCell}>
-                                      {user.workingStatus}
-                                    </td>
-                                    <td style={styles.innerTableCell}>
-                                      {moment(user.registrationDate).format(
-                                        "YYYY-MM-DD HH:mm"
-                                      )}
-                                    </td>
-                                  </tr> */}
                                 {event.registeredUsers.map((registration) => (
                                   <tr key={registration._id}>
                                     <td style={styles.innerTableCell}>
