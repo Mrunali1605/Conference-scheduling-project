@@ -74,13 +74,13 @@ function Login() {
         localStorage.setItem("token", data.jwtToken);
         localStorage.setItem("loggedInUser", data.name);
         localStorage.setItem("userRole", data.isAdmin ? "admin" : "user");
-localStorage.setItem("userId", data.userId);
+        localStorage.setItem("userId", data.userId);
         // if (!localStorage.getItem("todos")) {
         //   localStorage.setItem("todos", JSON.stringify([]));
         // }
 
         handleSuccess(data.message);
-
+        localStorage.setItem("email", data.email);
         setTimeout(() => {
           if (data.isAdmin) {
             navigate("/Home");

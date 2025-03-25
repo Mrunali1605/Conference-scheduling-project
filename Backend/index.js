@@ -9,7 +9,7 @@ require("dotenv").config();
 // Import Models - Add these lines before routes
 const User = require("./Models/User");
 const Event = require("./Models/Event");
-const Venue = require('./Models/Venue');
+const Venue = require("./Models/Venue");
 const Speaker = require("./Models/Speaker");
 
 // Import Routes
@@ -17,7 +17,7 @@ const authRoutes = require("./Routes/AuthRouter");
 const eventRoutes = require("./Routes/eventRoutes");
 const userRoutes = require("./Routes/userRoutes");
 const speakerRoutes = require("./Routes/SpeakerRoutes");
-const venueRoutes = require('./Routes/VenueRoutes');
+const venueRoutes = require("./Routes/VenueRoutes");
 
 // Initialize express app
 const app = express();
@@ -42,8 +42,7 @@ app.use("/auth", authRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/speakers", speakerRoutes);
-app.use('/api/venues', venueRoutes);
-
+app.use("/api/venues", venueRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

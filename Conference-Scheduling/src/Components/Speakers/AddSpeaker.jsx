@@ -188,9 +188,6 @@ function AddSpeaker() {
           />
         </div>
 
-        {/* <button type="submit" disabled={loading}>
-          {loading ? "Adding..." : "Add Speaker"}
-        </button> */}
         <div className="button-group">
           <button type="submit" disabled={loading}>
             {loading ? "Adding..." : "Add Speaker"}

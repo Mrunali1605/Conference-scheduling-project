@@ -5,6 +5,7 @@ import Footer from "../Footer/Footer";
 import collaborationImage from "../../assets/collaboration.png";
 import speaker1 from "../../assets/speaker1.jpg";
 import speaker2 from "../../assets/speaker2.jpg";
+import { FaLightbulb, FaHandshake, FaChartLine, FaHeart } from "react-icons/fa";
 
 const About = () => {
   return (
@@ -12,7 +13,8 @@ const About = () => {
       <Navbar />
       <div className="about-container">
         <section className="hero-section">
-          <h1>TechConf</h1>
+          <h1>About TechConf</h1>
+          <p>Empowering Events Through Technology</p>
           <p>Your trusted partner in professional event management</p>
         </section>
 
@@ -22,7 +24,9 @@ const About = () => {
               <h2>Our Mission</h2>
               <p>
                 To revolutionize conference planning by providing cutting-edge
-                scheduling solutions that bring people together.
+                scheduling solutions that bring people together and create
+                memorable experiences through seamless organization and
+                management.
               </p>
             </div>
             <img
@@ -33,23 +37,49 @@ const About = () => {
           </div>
         </section>
 
-        <section className="team-section">
-          <h2>Meet Our Team</h2>
-          <div className="team-grid">
-            {/* Team Member Cards */}
-            <div className="team-member">
-              <img src={speaker1} alt="Team member" />
-              <h3>John Doe</h3>
-              <p>CEO & Founder</p>
+        <section className="values-section">
+          <h2>Our Core Values</h2>
+          <div className="values-grid">
+            <div className="value-card">
+              <FaLightbulb className="value-icon" />
+              <h3>Innovation</h3>
+              <p>Constantly evolving and improving our platform</p>
             </div>
-            <div className="team-member">
-              <img src={speaker2} alt="Team member" />
-              <h3>Jane Smith</h3>
-              <p>Head of Operations</p>
+            <div className="value-card">
+              <FaHandshake className="value-icon" />
+              <h3>Reliability</h3>
+              <p>Building trust through consistent performance</p>
+            </div>
+            <div className="value-card">
+              <FaChartLine className="value-icon" />
+              <h3>Excellence</h3>
+              <p>Striving for the highest quality in everything we do</p>
+            </div>
+            <div className="value-card">
+              <FaHeart className="value-icon" />
+              <h3>User-Focused</h3>
+              <p>Putting our users' needs first</p>
             </div>
           </div>
         </section>
 
+        <section className="journey-section">
+          <h2>Our Journey</h2>
+          <div className="timeline">
+            <div className="timeline-item">
+              <p>Founded with a vision to transform conference management</p>
+            </div>
+            <div className="timeline-item">
+              <p>Launched our first comprehensive platform</p>
+            </div>
+            <div className="timeline-item">
+              <p>Expanded to serve international clients</p>
+            </div>
+            <div className="timeline-item">
+              <p>Revolutionizing the industry with AI-powered solutions</p>
+            </div>
+          </div>
+        </section>
         <section className="achievements-section">
           <h2>Our Achievements</h2>
           <table className="achievements-table">

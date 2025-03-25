@@ -1,6 +1,7 @@
 .add-venue-container {
   max-width: 600px;
-  margin: 100px auto 2rem;
+  width: 120%;
+  margin: 250px auto 2rem;
   padding: 2rem;
   background-color: #f8f9fa;
   border-radius: 8px;

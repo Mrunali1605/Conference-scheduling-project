@@ -30,14 +30,6 @@ function AdminDashboard() {
 
   // Fetch all events
   const fetchEvents = async () => {
-    // try {
-    //   const response = await axios.get("http://localhost:8080/api/events");
-    //   const formattedEvents = response.data.map((event) => ({
-    //     ...event,
-    //     start: new Date(event.start),
-    //     end: new Date(event.end),
-    //   }));
-    //   setEvents(formattedEvents);
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -55,18 +47,6 @@ function AdminDashboard() {
         axios.get("http://localhost:8080/api/venues", { headers }),
       ]);
 
-      //   setEvents(
-      //     eventsRes.data.map((event) => ({
-      //       ...event,
-      //       start: new Date(event.start),
-      //       end: new Date(event.end),
-      //       description: event.description,
-      // location: event.location,
-      // capacity: event.capacity,
-      // venue: event.venue,
-      // speakers: event.speakers,
-      //     }))
-      //   );
       const formattedEvents = eventsRes.data.map((event) => ({
         _id: event._id,
         title: event.title,
@@ -143,7 +123,6 @@ function AdminDashboard() {
         capacity: parseInt(newEvent.capacity),
         speakers: newEvent.speakers,
         venue: newEvent.venue || null,
-        // venue: newEvent.venue,
       };
       console.log("Sending event data:", eventData);
       let response;
@@ -176,7 +155,7 @@ function AdminDashboard() {
       }
 
       if (response.status === 200 || response.status === 201) {
-        await fetchEvents(); // Refresh events from database
+        await fetchEvents(); 
         setShowModal(false);
         resetForm();
       }
@@ -189,9 +168,10 @@ function AdminDashboard() {
     const venueId = e.target.value;
     setNewEvent((prev) => ({
       ...prev,
-      venue: venueId || null, // Consistently set to null if empty
+      venue: venueId || null, 
     }));
   };
+
   // Handle event deletion
   const handleDelete = async () => {
     try {
@@ -228,7 +208,6 @@ function AdminDashboard() {
       end: moment(event.end).format("YYYY-MM-DDTHH:mm"),
       location: event.location,
       capacity: event.capacity,
-      // speakers: event.speakers || [],
       speakers: Array.isArray(event.speakers)
         ? event.speakers.map((speaker) => speaker._id).filter(Boolean)
         : [],
@@ -293,7 +272,7 @@ function AdminDashboard() {
           })}
         />
       </div>
-      {/* </div> */}
+   
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -412,7 +391,6 @@ function AdminDashboard() {
                   id="venue"
                   name="venue"
                   value={newEvent.venue || ""}
-                  // onChange={handleVenueChange}
                   onChange={(e) => {
                     const venueId = e.target.value;
                     console.log("Selected venue ID:", venueId);

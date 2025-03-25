@@ -11,7 +11,6 @@ router.post("/signup", signupValidation, signup);
 
 module.exports = router;
 
-// const router = require("express").Router();
 const auth = require("../Middleswares/auth");
 const {
   createEvent,

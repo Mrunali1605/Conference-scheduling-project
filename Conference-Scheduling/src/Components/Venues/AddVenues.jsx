@@ -7,7 +7,6 @@ import Navbar from "../Navbar/Navbar";
 
 const AddVenues = () => {
   const navigate = useNavigate();
-  // const [venue, setVenue] = useState({
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -22,19 +21,6 @@ const AddVenues = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch available events when component mounts
-    //   const checkAdmin = async () => {
-    //     const token = localStorage.getItem("token");
-    //     const userRole = localStorage.getItem("userRole");
-
-    //     if (!token || userRole !== "admin") {
-    //       navigate("/unauthorized");
-    //       return;
-    //     }
-    //   };
-    //   checkAdmin();
-    //   fetchEvents();
-    // }, [navigate]);
     const loadEvents = async () => {
       setIsLoading(true);
       try {
@@ -75,11 +61,6 @@ const AddVenues = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  //   setVenue({
-  //     ...venue,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -111,7 +92,6 @@ const AddVenues = () => {
 
       const response = await axios.post(
         "http://localhost:8080/api/venues",
-        // venue,
         formData,
         {
           headers: {
@@ -124,16 +104,9 @@ const AddVenues = () => {
         handleSuccess("Venue added successfully!");
         navigate("/venues");
       }
-      // setVenue({
-      //   name: "",
-      //   address: "",
-      //   capacity: "",
-      //   facilities: "",
-      //   eventId: "",
-      // });
     } catch (error) {
       console.error("Error details:", error.response);
-      // handleError(error.response?.data?.message || "Error adding venue");
+
       if (error.response?.status === 404) {
         setError(
           "API endpoint not found. Please check the server configuration."
@@ -172,8 +145,6 @@ const AddVenues = () => {
             >
               <option value="">Select an event</option>
               {events.map((event) => (
-                // <option key={event._id} value={event._id}>
-                //   {event.name}
                 <option key={event._id} value={event._id}>
                   {event.title} - {new Date(event.start).toLocaleDateString()}
                 </option>

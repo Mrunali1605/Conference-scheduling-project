@@ -30,12 +30,11 @@ const createEvent = async (req, res) => {
       createdBy: req.user._id,
       speakers: [],
       venue: venue || null,
-      // venue,
     });
     console.log("New event before save:", newEvent);
     const savedEvent = await newEvent.save();
     console.log("Saved event:", savedEvent);
-    // Use proper model names in populate
+
     const populatedEvent = await Event.findById(savedEvent._id)
       .populate({
         path: "speakers",
@@ -47,12 +46,10 @@ const createEvent = async (req, res) => {
         select: "name email",
       })
       .populate({
-        path:"venue",
-        select:"name address capacity facilities"});
-      // .populate({
-      //   path: "venue",
-      //   model: "Venue",
-      // });
+        path: "venue",
+        select: "name address capacity facilities",
+      });
+
     console.log("Created event:", populatedEvent);
     res.status(201).json(populatedEvent);
   } catch (error) {
@@ -102,7 +99,6 @@ const deleteEvent = async (req, res) => {
       return res.status(404).json({ message: "Event not found" });
     }
 
-    //  Check if user is creator or admin
     if (
       !req.user.isAdmin &&
       event.createdBy.toString() !== req.user._id.toString()
@@ -125,14 +121,19 @@ const deleteEvent = async (req, res) => {
 const getAllEvents = async (req, res) => {
   try {
     const events = await Event.find()
-      // .populate("venue")
+
       .populate({
         path: "venue",
-        select: "name address capacity facilities", // Specify venue fields
+        select: "name address capacity facilities",
       })
       .populate("speakers")
       .populate("createdBy", "name")
-      .sort({ start: 1 }) // Sort by start date
+      .populate({
+        path: "registeredUsers",
+        select: "name email age qualification workingStatus registrationDate",
+      })
+      // .populate("registeredUsers.user", "name email")
+      .sort({ start: 1 })
       .select(
         "title description location capacity start end venue speakers createdBy"
       );

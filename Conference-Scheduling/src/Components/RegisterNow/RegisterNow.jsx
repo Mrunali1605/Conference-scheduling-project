@@ -1,172 +1,3 @@
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
-// import "./RegisterNow.css";
-// import Navbar from "../Navbar/Navbar";
-// import Footer from "../Footer/Footer";
-// import { handleError } from "../../Utile";
-
-// const RegisterNow = () => {
-//   const [venues, setVenues] = useState([]);
-//   const [speakers, setSpeakers] = useState([]);
-//   const [events, setEvents] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState("");
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const token = localStorage.getItem("token");
-//         if (!token) {
-//           setError("Authentication required");
-//           return;
-//         }
-
-//         const headers = { Authorization: `Bearer ${token}` };
-
-//         // Fetch all data in parallel
-//         const [venuesRes, speakersRes, eventsRes] = await Promise.all([
-//           axios.get("http://localhost:8080/api/venues", { headers }),
-//           axios.get("http://localhost:8080/api/speakers", { headers }),
-//           axios.get("http://localhost:8080/api/events", { headers }),
-//         ]);
-
-//         setVenues(venuesRes.data);
-//         setSpeakers(speakersRes.data);
-//         setEvents(eventsRes.data);
-//       } catch (error) {
-//         setError(error.response?.data?.message || "Error fetching data");
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   if (loading) {
-//     return (
-//       <>
-//         <Navbar />
-//         <div className="loading">Loading...</div>
-//       </>
-//     );
-//   }
-
-//   if (error) {
-//     return (
-//       <>
-//         <Navbar />
-//         <div className="error">{error}</div>
-//       </>
-//     );
-//   }
-
-//   return (
-//     <>
-//       <Navbar />
-//       <div className="register-container">
-//         <h2>Event Registration Details</h2>
-
-//         <section className="events-section">
-//           <h3>Available Events</h3>
-//           // Update the events table to include venue and speakers
-// <table>
-//   <thead>
-//     <tr>
-//       <th>Event Name</th>
-//       <th>Date & Time</th>
-//       <th>Venue</th>
-//       <th>Speakers</th>
-//       <th>Capacity</th>
-//       <th>Status</th>
-//       <th>Action</th>
-//     </tr>
-//   </thead>
-//   <tbody>
-//     {events.map((event) => (
-//       <tr key={event._id}>
-//         <td>{event.title}</td>
-//         <td>
-//           {new Date(event.start).toLocaleDateString()} {new Date(event.start).toLocaleTimeString()}
-//         </td>
-//         <td>{event.venue?.name}</td>
-//         <td>
-//           {event.speakers?.map(speaker => speaker.name).join(", ")}
-//         </td>
-//         <td>{event.capacity}</td>
-//         <td>{event.status}</td>
-//         <td>
-//           <button 
-//             onClick={() => handleRegister(event._id)}
-//             disabled={event.registeredUsers?.length >= event.capacity}
-//           >
-//             {event.registeredUsers?.length >= event.capacity ? 'Full' : 'Register'}
-//           </button>
-//         </td>
-//       </tr>
-//     ))}
-//   </tbody>
-// </table>
-//         </section>
-
-//         <section className="speakers-section">
-//           <h3>Featured Speakers</h3>
-//           <table>
-//             <thead>
-//               <tr>
-//                 <th>Name</th>
-//                 <th>Topic</th>
-//                 <th>Bio</th>
-//                 <th>Event</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {speakers.map((speaker) => (
-//                 <tr key={speaker._id}>
-//                   <td>{speaker.name}</td>
-//                   <td>{speaker.topic}</td>
-//                   <td>{speaker.bio}</td>
-//                   <td>{speaker.eventId?.title || "N/A"}</td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </section>
-
-//         <section className="venues-section">
-//           <h3>Available Venues</h3>
-//           <table>
-//             <thead>
-//               <tr>
-//                 <th>Venue Name</th>
-//                 <th>Address</th>
-//                 <th>Capacity</th>
-//                 <th>Facilities</th>
-//                 <th>Event</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {venues.map((venue) => (
-//                 <tr key={venue._id}>
-//                   <td>{venue.name}</td>
-//                   <td>{venue.address}</td>
-//                   <td>{venue.capacity}</td>
-//                   <td>{venue.facilities}</td>
-//                   <td>{venue.eventId?.title || "N/A"}</td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </section>
-//       </div>
-//       <Footer />
-//     </>
-//   );
-// };
-
-// export default RegisterNow;
-
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../Navbar/Navbar";
@@ -179,8 +10,12 @@ const RegisterNow = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [expandedEvent, setExpandedEvent] = useState(null);
 
-  // Fetch events data
+  const toggleRegisteredUsers = (eventId) => {
+    setExpandedEvent(expandedEvent === eventId ? null : eventId);
+  };
+
   const fetchEvents = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -190,9 +25,9 @@ const RegisterNow = () => {
       }
 
       const response = await axios.get("http://localhost:8080/api/events", {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
-
+      console.log("Fetched events:", response.data);
       setEvents(response.data);
       setLoading(false);
     } catch (error) {
@@ -205,7 +40,6 @@ const RegisterNow = () => {
     fetchEvents();
   }, []);
 
-  // Handle delete event
   const handleDelete = async (eventId) => {
     try {
       const token = localStorage.getItem("token");
@@ -214,15 +48,17 @@ const RegisterNow = () => {
         return;
       }
 
-      const confirmed = window.confirm("Are you sure you want to delete this event?");
+      const confirmed = window.confirm(
+        "Are you sure you want to delete this event?"
+      );
       if (!confirmed) return;
 
       await axios.delete(`http://localhost:8080/api/events/${eventId}`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       handleSuccess("Event deleted successfully");
-      fetchEvents(); // Refresh the data
+      fetchEvents();
     } catch (error) {
       handleError(error.response?.data?.message || "Error deleting event");
     }
@@ -234,8 +70,10 @@ const RegisterNow = () => {
   return (
     <>
       <Navbar />
-      <div style={{ padding: "80px 20px 20px 20px" }}>
-        <h2>Event Management</h2>
+      {/* <h2 style={{ textAlign: "center", fontSize: "50px", paddingTop: "70px" }}>
+        Event Management
+      </h2> */}
+      <div style={{ padding: "300px 20px 20px 20px" }}>
         <div style={{ overflowX: "auto" }}>
           <table style={styles.table}>
             <thead>
@@ -244,37 +82,140 @@ const RegisterNow = () => {
                 <th style={styles.th}>Description</th>
                 <th style={styles.th}>Date & Time</th>
                 <th style={styles.th}>Location</th>
-                <th style={styles.th}>Capacity</th>
+                <th style={styles.th}>Registered/Capacity</th>
                 <th style={styles.th}>Venue</th>
                 <th style={styles.th}>Speakers</th>
+                <th style={styles.th}>Details</th>
                 <th style={styles.th}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {events.map((event) => (
-                <tr key={event._id}>
-                  <td style={styles.td}>{event.title}</td>
-                  <td style={styles.td}>{event.description}</td>
-                  <td style={styles.td}>
-                    Start: {moment(event.start).format("YYYY-MM-DD HH:mm")}
-                    <br />
-                    End: {moment(event.end).format("YYYY-MM-DD HH:mm")}
-                  </td>
-                  <td style={styles.td}>{event.location}</td>
-                  <td style={styles.td}>{event.capacity}</td>
-                  <td style={styles.td}>{event.venue?.name || "N/A"}</td>
-                  <td style={styles.td}>
-                    {event.speakers?.map(speaker => speaker.name).join(", ") || "No speakers"}
-                  </td>
-                  <td style={styles.td}>
-                    <button 
-                      style={styles.deleteButton}
-                      onClick={() => handleDelete(event._id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
+                <React.Fragment key={event._id}>
+                  <tr>
+                    <td style={styles.td}>{event.title}</td>
+                    <td style={styles.td}>{event.description}</td>
+                    <td style={styles.td}>
+                      Start: {moment(event.start).format("YYYY-MM-DD HH:mm")}
+                      <br />
+                      End: {moment(event.end).format("YYYY-MM-DD HH:mm")}
+                    </td>
+                    <td style={styles.td}>{event.location}</td>
+                    <td style={styles.td}>
+                      {event.registeredUsers?.length || 0} / {event.capacity}
+                    </td>
+                    <td style={styles.td}>{event.venue?.name || "N/A"}</td>
+                    <td style={styles.td}>
+                      {event.speakers
+                        ?.map((speaker) => speaker.name)
+                        .join(", ") || "No speakers"}
+                    </td>
+                    <td style={styles.td}>
+                      <button
+                        style={styles.detailsButton}
+                        onClick={() => toggleRegisteredUsers(event._id)}
+                      >
+                        {expandedEvent === event._id
+                          ? "Hide Details"
+                          : "Show Details"}
+                        {event.registeredUsers?.length > 0 &&
+                          ` (${event.registeredUsers.length})`}
+                      </button>
+                    </td>
+                    <td style={styles.td}>
+                      <button
+                        style={styles.deleteButton}
+                        onClick={() => handleDelete(event._id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                  {expandedEvent === event._id && (
+                    <tr>
+                      <td colSpan="9" style={styles.registeredUsersCell}>
+                        <div style={styles.registeredUsersContainer}>
+                          <h4 style={{ margin: "10px 0", padding: "0 15px" }}>
+                            Registered Users for {event.title}
+                          </h4>
+                          {event.registeredUsers?.length > 0 ? (
+                            <table style={styles.innerTable}>
+                              <thead>
+                                <tr>
+                                  <th style={styles.innerTableHeader}>Name</th>
+                                  <th style={styles.innerTableHeader}>Email</th>
+                                  <th style={styles.innerTableHeader}>Age</th>
+                                  <th style={styles.innerTableHeader}>
+                                    Qualification
+                                  </th>
+                                  <th style={styles.innerTableHeader}>
+                                    Working Status
+                                  </th>
+                                  <th style={styles.innerTableHeader}>
+                                    Registration Date
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {/* {event.registeredUsers.map((user) => (
+                                  <tr key={user._id}>
+                                    <td style={styles.innerTableCell}>
+                                      {user.name}
+                                    </td>
+                                    <td style={styles.innerTableCell}>
+                                      {user.email}
+                                    </td>
+                                    <td style={styles.innerTableCell}>
+                                      {user.age}
+                                    </td>
+                                    <td style={styles.innerTableCell}>
+                                      {user.qualification}
+                                    </td>
+                                    <td style={styles.innerTableCell}>
+                                      {user.workingStatus}
+                                    </td>
+                                    <td style={styles.innerTableCell}>
+                                      {moment(user.registrationDate).format(
+                                        "YYYY-MM-DD HH:mm"
+                                      )}
+                                    </td>
+                                  </tr> */}
+                                {event.registeredUsers.map((registration) => (
+                                  <tr key={registration._id}>
+                                    <td style={styles.innerTableCell}>
+                                      {registration.name}
+                                    </td>
+                                    <td style={styles.innerTableCell}>
+                                      {registration.email}
+                                    </td>
+                                    <td style={styles.innerTableCell}>
+                                      {registration.age}
+                                    </td>
+                                    <td style={styles.innerTableCell}>
+                                      {registration.qualification}
+                                    </td>
+                                    <td style={styles.innerTableCell}>
+                                      {registration.workingStatus}
+                                    </td>
+                                    <td style={styles.innerTableCell}>
+                                      {moment(
+                                        registration.registrationDate
+                                      ).format("YYYY-MM-DD HH:mm")}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          ) : (
+                            <div style={styles.noRegistrations}>
+                              No users have registered for this event yet.
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
               ))}
             </tbody>
           </table>
@@ -298,12 +239,12 @@ const styles = {
     padding: "12px",
     textAlign: "left",
     borderBottom: "2px solid #ddd",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   td: {
     padding: "12px",
     borderBottom: "1px solid #ddd",
-    verticalAlign: "top"
+    verticalAlign: "top",
   },
   deleteButton: {
     backgroundColor: "#dc3545",
@@ -311,8 +252,61 @@ const styles = {
     border: "none",
     padding: "8px 12px",
     borderRadius: "4px",
-    cursor: "pointer"
-  }
+    cursor: "pointer",
+    transition: "background-color 0.2s ease",
+    "&:hover": {
+      backgroundColor: "#c82333",
+    },
+  },
+  detailsButton: {
+    backgroundColor: "#007bff",
+    color: "white",
+    border: "none",
+    padding: "8px 12px",
+    borderRadius: "4px",
+    cursor: "pointer",
+    transition: "background-color 0.2s ease",
+    "&:hover": {
+      backgroundColor: "#0056b3",
+    },
+  },
+  registeredUsersCell: {
+    padding: "20px",
+    backgroundColor: "#f8f9fa",
+    transition: "all 0.3s ease",
+  },
+  registeredUsersContainer: {
+    maxWidth: "100%",
+    overflowX: "auto",
+    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+    borderRadius: "8px",
+  },
+  innerTable: {
+    width: "100%",
+    borderCollapse: "collapse",
+    backgroundColor: "white",
+    borderRadius: "8px",
+    overflow: "hidden",
+  },
+  innerTableHeader: {
+    backgroundColor: "#e9ecef",
+    color: "#495057",
+    padding: "12px 15px",
+    textAlign: "left",
+    fontWeight: "600",
+    borderBottom: "2px solid #dee2e6",
+  },
+  innerTableCell: {
+    padding: "12px 15px",
+    borderBottom: "1px solid #dee2e6",
+    color: "#212529",
+  },
+  noRegistrations: {
+    padding: "20px",
+    textAlign: "center",
+    color: "#6c757d",
+    fontStyle: "italic",
+  },
 };
 
 export default RegisterNow;

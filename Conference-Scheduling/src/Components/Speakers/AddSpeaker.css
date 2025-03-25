@@ -11,9 +11,9 @@ body {
 }
 
 .add-speaker-container {
-  margin: 100px auto 1rem;
+  margin: 250px auto 1rem;
   min-height: calc(100vh - 200px);
-  width: 100%;
+  width: 120%;
   max-width: 600px;
   padding: 2rem;
   background-color: #ffffff;
@@ -44,7 +44,7 @@ textarea,
 select {
   width: 100%;
   margin-bottom: 2px;
-  padding: 5px;
+  padding: 3px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }

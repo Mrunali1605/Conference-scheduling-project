@@ -174,54 +174,111 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
-// router.post("/:id/register", auth, async (req, res) => {
-//   try {
-//     const eventId = req.params.id;
-//     const userId = req.user._id;
+// Add this route to handle registrations
+router.post("/:id/register", auth, async (req, res) => {
+  try {
+    const eventId = req.params.id;
+    const userId = req.user._id;
+    console.log("Registration request received:", {
+      eventId,
+      userId,
+      body: req.body,
+    });
 
-//     const event = await Event.findById(eventId);
-//     if (!event) {
-//       return res.status(404).json({ message: "Event not found" });
-//     }
+    const { name, email, age, qualification, workingStatus } = req.body;
 
-//     // Check if user is already registered
-//     const isRegistered = event.registeredUsers.some(
-//       (reg) => reg.user.toString() === userId.toString()
-//     );
+    // Validate required fields
+    if (!name || !email || !age || !qualification || !workingStatus) {
+      console.log("Missing required fields:", {
+        name,
+        email,
+        age,
+        qualification,
+        workingStatus,
+      });
+      return res.status(400).json({ message: "Missing required fields" });
+    }
 
-//     if (isRegistered) {
-//       return res.status(400).json({ message: "Already registered for this event" });
-//     }
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
 
-//     // Check event capacity
-//     if (event.registeredUsers.length >= event.capacity) {
-//       return res.status(400).json({ message: "Event is full" });
-//     }
+    const isRegistered = event.registeredUsers.some(
+      (reg) => reg.user.toString() === userId.toString()
+    );
+    if (isRegistered) {
+      return res
+        .status(400)
+        .json({ message: "Already registered for this event" });
+    }
 
-//     // Add registration
-//     event.registeredUsers.push({
-//       user: userId,
-//       registrationDate: new Date()
-//     });
+    // Check capacity
+    if (event.registeredUsers.length >= event.capacity) {
+      return res.status(400).json({ message: "Event is full" });
+    }
+    // Add registration with details
+    const registration = {
+      user: userId,
+      name,
+      email,
+      age,
+      qualification,
+      workingStatus,
+      registrationDate: new Date(),
+    };
 
-//     await event.save();
+    event.registeredUsers.push(registration);
+    await event.save();
 
-//     res.status(200).json({
-//       message: "Successfully registered for the event",
-//       event: {
-//         title: event.title,
-//         start: event.start,
-//         registrationDate: new Date()
-//       }
-//     });
+    res.status(200).json({
+      message: "Registration successful",
+      registration: event.registeredUsers[event.registeredUsers.length - 1],
+      // registration,
+    });
+  } catch (error) {
+    console.error("Registration error:", error);
+    res.status(500).json({
+      message: "Failed to register for event",
+      error: error.message,
+    });
+  }
+});
 
-//   } catch (error) {
-//     console.error('Registration error:', error);
-//     res.status(500).json({
-//       message: "Failed to register for event",
-//       error: error.message
-//     });
-//   }
-// });
+// Add route to get user's registrations
+router.get("/user/registrations", auth, async (req, res) => {
+  try {
+    const events = await Event.find({
+      "registeredUsers.user": req.user._id,
+    }).populate("venue");
 
+    const registrations = events.flatMap((event) => {
+      const userRegistrations = event.registeredUsers.filter(
+        (reg) => reg.user.toString() === req.user._id.toString()
+      );
+      return userRegistrations.map((reg) => ({
+        _id: reg._id,
+        name: reg.name,
+        email: reg.email,
+        age: reg.age,
+        qualification: reg.qualification,
+        workingStatus: reg.workingStatus,
+        registrationDate: reg.registrationDate,
+        event: {
+          _id: event._id,
+          title: event.title,
+          start: event.start,
+          end: event.end,
+          venue: event.venue,
+        },
+      }));
+    });
+    res.json(registrations);
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to fetch registrations",
+      error: error.message,
+    });
+  }
+});
 module.exports = router;

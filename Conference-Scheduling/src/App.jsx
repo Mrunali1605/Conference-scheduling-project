@@ -12,15 +12,31 @@ import Unauthorized from "./Components/Unauthorized/Unauthorized";
 import Venues from "./Components/Venues/Venues";
 import AddVenues from "./Components/Venues/AddVenues";
 import About from "./Components/About/About";
+import RegisteredEvents from "./Components/Registeration/RegisteredEvents";
 import { checkAdminStatus } from "./Utile";
+
 const ProtectedRoute = ({ children }) => {
-  const isAdmin = localStorage.getItem("userRole") === "admin";
-  if (!isAdmin) {
+  const token = localStorage.getItem("token");
+  if (!token) {
     return <Navigate to="/login" />;
   }
   return children;
 };
+const AdminRoute = ({ children }) => {
+  const isAdmin = localStorage.getItem("userRole") === "admin";
+  if (!isAdmin) {
+    return <Navigate to="/unauthorized" />;
+  }
+  return children;
+};
 
+const AuthRoute = ({ children }) => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
+  return children;
+};
 function App() {
   return (
     <>
@@ -34,9 +50,9 @@ function App() {
         <Route
           path="/AdminDashboard"
           element={
-            <ProtectedRoute>
+            <AdminRoute>
               <AdminDashboard />
-            </ProtectedRoute>
+            </AdminRoute>
           }
         />
         <Route
@@ -71,11 +87,19 @@ function App() {
             </ProtectedRoute>
           }
         />
-        {/* <Route path="/register" element={<RegisterNow />} /> */}
+
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="/RegisterNow" element={<RegisterNow />} />
 
         <Route path="/about" element={<About />} />
+        <Route
+          path="/registered-events"
+          element={
+            <ProtectedRoute>
+              <RegisteredEvents />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </>
   );

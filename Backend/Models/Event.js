@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const eventSchema = new mongoose.Schema(
   {
     title: {
@@ -28,12 +27,6 @@ const eventSchema = new mongoose.Schema(
       required: true,
       min: 1,
     },
-    // registeredUsers: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "User",
-    //   },
-    // ],
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -43,7 +36,6 @@ const eventSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Venue",
       default: null,
-      // required: true,
     },
     speakers: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Speaker", default: [] },
@@ -60,19 +52,56 @@ const eventSchema = new mongoose.Schema(
           ref: "User",
           required: true,
         },
+        name: {
+          type: String,
+          required: true,
+        },
+        email: {
+          type: String,
+          required: true,
+        },
+        age: {
+          type: Number,
+          required: true,
+        },
+        qualification: {
+          type: String,
+          required: true,
+        },
+        workingStatus: {
+          type: String,
+          required: true,
+        },
         registrationDate: {
           type: Date,
           default: Date.now,
         },
       },
     ],
+    //     name: String,
+    //     email: String,
+    //     age: Number,
+    //     qualification: String,
+    //     workingStatus: String,
+    //     registrationDate: {
+    //       type: Date,
+    //       default: Date.now,
+    //     },
+    //   },
+    // ],
+    //   registrationDate: {
+    //     type: Date,
+    //     default: Date.now,
+    //   },
   },
+
   {
     timestamps: true,
   }
 );
 
 eventSchema.index({ start: 1, end: 1 });
+
 // Add capacity validation
 eventSchema.pre("save", function (next) {
   if (this.registeredUsers.length > this.capacity) {
@@ -80,6 +109,7 @@ eventSchema.pre("save", function (next) {
   }
   next();
 });
+
 // Add validation for dates
 eventSchema.pre("save", function (next) {
   if (this.start >= this.end) {
